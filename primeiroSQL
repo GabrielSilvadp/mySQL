@@ -1,0 +1,80 @@
+-- Exemplo criando database
+create database GABRIEUteste;
+
+-- Selecionando a database por uso
+use GABRIEUteste;
+
+-- Criando Tabela
+create table empregado (
+matricula integer NOT NULL,
+nome VARCHAR(40) NOT NULL,
+cpf CHAR(11) NOT NULL
+);
+
+-- Inserindo dados
+insert into empregado(matricula, nome, cpf) VALUES(5555,"GABRIEL",959595);
+
+-- Selecionando todos os empregados
+select * from empregado;
+
+-- CUIDADO comando de exclusão
+drop database GABRIEUteste;
+
+-- criando restrição check
+CREATE TABLE Persons (
+ID int NOT NULL,
+LastName varchar(255) NOT NULL,
+FirstName varchar(255),
+Age int,
+CHECK (Age>=18)
+);
+
+-- Exemplo de limitação de idade
+INSERT INTO Persons(ID, LastName, FirstName, Age) VALUES (1, "Soares", "Pedro", 17);
+select * from Persons;
+
+drop table Persons;
+
+-- descrevendo tabelas
+describe empregado;
+
+-- inserindo valores erro chave primaria
+insert into empregado(nome) VALUES ("Ramon");
+insert into empregado(nome) VALUES ("Lucas");
+
+select * from empregado;
+
+-- preenchimento chave primaria
+insert into empregado(matricula, nome) values(1,"Lucas");
+
+create table departamento(
+cod_depto int not null primary key auto_increment,
+nome_depto varchar (40));
+
+insert into departamento (nome_depto) VALUES ("vendas");
+insert into departamento (nome_depto) VALUES ("financeiro");
+
+select * from departamento;
+
+describe departamento;
+
+drop table departamento;
+drop table empregado;
+
+create table empregado(
+matricula int not null primary key auto_increment,
+nome varchar(40) NOT NULL,
+cod_dep int not null,
+constraint fk_empregado_departamento
+foreign key(cod_dep)
+references departamento(cod_depto)
+);
+
+-- inserindo empregado sem departamento erro chave estrangeira
+insert into empregado(nome) values ("Ramon");
+
+-- inserindo empregado em departamento inexistente
+insert into empregado(nome, cod_dep) values ("Ramon",3);
+
+-- inserindo empregado em departamento existente :)
+insert into empregado (nome, cod_dep) values ("Ramon", 1);
