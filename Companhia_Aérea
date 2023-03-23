@@ -1,0 +1,55 @@
+create database companhia_aerea;
+
+use companhia_aerea;
+
+drop database companhia_aerea; -- CUIDADO
+
+create table aviao( 
+id_aviao int primary key,
+nome_aviao varchar(40),
+id_modelo int NOT NULL,
+constraint fk_id_modelo foreign key (id_modelo) references modelo (id_modelo)
+);
+
+drop table aviao;
+
+create table modelo(
+id_modelo integer primary key,
+nome_modelo varchar(40)
+);
+
+drop table modelo;
+
+create table piloto_modelo (
+id_piloto1 int NOT NULL,
+constraint fk_id_piloto1 foreign key (id_piloto1) references piloto (id_piloto),
+id_modelo1 int NOT NULL,
+constraint fk_id_modelo1 foreign key (id_modelo1) references modelo (id_modelo),
+constraint pk_modelo_piloto primary key (id_piloto1,id_modelo1) -- usando duas variaveis para criar uma chave primaria!
+);
+
+drop table piloto_modelo;
+
+create table piloto(
+id_piloto int primary key NOT NULL,
+nome varchar(200),
+cpf char(11),
+qtd_voos_agendados int
+);
+
+drop table piloto;
+
+create table voo(
+data_ini datetime,
+duracao_horas time,
+local_partida varchar(100),
+local_destino varchar(100),
+id_piloto int,
+id_aviao int,
+constraint fk_id_piloto foreign key (id_piloto) references piloto (id_piloto),
+constraint fk_id_aviao foreign key (id_aviao) references aviao (id_aviao),
+id_voo int primary key
+);
+
+drop table voo;
+
